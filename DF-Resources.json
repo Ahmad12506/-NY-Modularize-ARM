@@ -30,6 +30,13 @@
                 "description": "Enter Action group name."
                 }
         },
+        "Logic_App_Name": {
+            "defaultValue": "newlogicapp",
+            "type": "String",
+            "metadata": {
+                "description": "The name can only contain letters, numbers, and '-', '(', ')', '_' or '.'."
+                }
+        },
         "Save_into_SQL":{
             "type": "string",
             "metadata": {

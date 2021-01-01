@@ -30,6 +30,13 @@
                 "description": "Enter Action group name."
                 }
         },
+        "Action_Email": {
+            "defaultValue": "Ahmad.asad@emumba.com",
+            "type": "String",
+            "metadata": {
+                "description": "Enter Email to send the notification."
+                }
+        },
         "Logic_App_Name": {
             "defaultValue": "newlogicapp",
             "type": "String",

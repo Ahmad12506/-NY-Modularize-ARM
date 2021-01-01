@@ -104,10 +104,7 @@
                 "voiceReceivers": [],
                 "logicAppReceivers": [],
                 "azureFunctionReceivers": []
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Logic/workflows', parameters('Logic_App_Name'))]"
-            ]
+            }
         },
        {
             "type": "Microsoft.DataFactory/factories",

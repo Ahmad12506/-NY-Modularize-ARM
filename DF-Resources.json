@@ -75,6 +75,40 @@
         "databaseCollation": "SQL_Latin1_General_CP1_CI_AS"
     },
     "resources": [
+        {
+            "type": "microsoft.insights/actionGroups",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('Action_Group_Name')]",
+            "location": "Global",
+            "properties": {
+                "groupShortName": "Action Group",
+                "enabled": true,
+                "emailReceivers": [
+                    {
+                        "name": "SendEmail_-EmailAction-",
+                        "emailAddress": "[parameters('Action_Email')]",
+                        "useCommonAlertSchema": false
+                    }
+                ],
+                "smsReceivers": [],
+                "webhookReceivers": [
+                    {
+                        "name": "new-webhook",
+                        "serviceUri": "[listCallbackURL(concat(resourceId('Microsoft.Logic/workflows', parameters('Logic_App_Name')), '/triggers/manual'), '2016-10-01').value]",
+                        "useCommonAlertSchema": false
+                    }
+                ],
+                "itsmReceivers": [],
+                "azureAppPushReceivers": [],
+                "automationRunbookReceivers": [],
+                "voiceReceivers": [],
+                "logicAppReceivers": [],
+                "azureFunctionReceivers": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Logic/workflows', parameters('Logic_App_Name'))]"
+            ]
+        },
        {
             "type": "Microsoft.DataFactory/factories",
             "apiVersion": "2018-06-01",
@@ -2189,7 +2223,6 @@
                 "[concat(variables('factoryId'), '/datasets/Get_CurrentTable')]",
                 "[concat(variables('factoryId'), '/datasets/Save_CurrentSQLTable')]",
                 "[concat(variables('factoryId'), '/datasets/Get_LastTable')]",
-                "[concat(variables('factoryId'), '/linkedServices/SQLLinkedService')]",
                 "[concat(variables('factoryId'), '/datasets/Save_StoreProcedureResults')]"
             ]
         },
@@ -2853,7 +2886,7 @@
                 }
             },
             "dependsOn": [
-                "[parameters('factoryName')]",
+                "[parameters('factoryName')]"
             ]
         },
         {

@@ -73,40 +73,6 @@
             }
         },
         {
-            "type": "microsoft.insights/actionGroups",
-            "apiVersion": "2019-03-01",
-            "name": "[parameters('Action_Group_Name')]",
-            "location": "Global",
-            "properties": {
-                "groupShortName": "Action Group",
-                "enabled": true,
-                "emailReceivers": [
-                    {
-                        "name": "SendEmail_-EmailAction-",
-                        "emailAddress": "[parameters('Action_Email')]",
-                        "useCommonAlertSchema": false
-                    }
-                ],
-                "smsReceivers": [],
-                "webhookReceivers": [
-                    {
-                        "name": "new-webhook",
-                        "serviceUri": "[listCallbackURL(concat(resourceId('Microsoft.Logic/workflows', parameters('Logic_App_Name')), '/triggers/manual'), '2016-10-01').value]",
-                        "useCommonAlertSchema": false
-                    }
-                ],
-                "itsmReceivers": [],
-                "azureAppPushReceivers": [],
-                "automationRunbookReceivers": [],
-                "voiceReceivers": [],
-                "logicAppReceivers": [],
-                "azureFunctionReceivers": []
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Logic/workflows', parameters('Logic_App_Name'))]"
-            ]
-        },
-        {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
             "name": "[parameters('Logic_App_Name')]",

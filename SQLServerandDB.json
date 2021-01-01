@@ -48,6 +48,10 @@
               }
         }
     },
+    "variables": {
+        "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+        "databaseCollation": "SQL_Latin1_General_CP1_CI_AS"
+    },
     "resources": [
         {
             "condition":"[equals(parameters('Save_into_SQL'),'Yes')]",

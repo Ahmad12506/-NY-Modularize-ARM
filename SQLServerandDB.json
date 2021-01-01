@@ -1,1 +1,98 @@
-abc
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Save_into_SQL":{
+            "type": "string",
+            "metadata": {
+                "description": "Select 'Yes' to save output data into SQL. Otherwise 'No'."
+            },
+            "allowedValues":[
+                "Yes",
+                "No"
+            ]
+        },
+        "yourserver": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Your server name can contain only lowercase letters, numbers, and '-', but can't start or end with '-' or have more than 63 characters."
+                }
+        },
+        "yourdb": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Your database name can't end with '.' or ' ', can't contain '<,>,*,%,&,:/,?' or control characters."
+                }
+        },
+        "serverlogin": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Your login name must not start with numbers or symbols."
+                }
+        },
+        "serverpassword": {
+            "defaultValue": "",
+            "type": "securestring",
+            "metadata": {
+                "description": "Your password must be at least 8 characters in length."
+                }
+        },
+        "location": {
+              "type": "string",
+              "defaultValue": "eastus",
+              "metadata": {
+              "description": "By Default eastus location is allowed."
+              }
+        }
+    },
+    "resources": [
+        {
+            "condition":"[equals(parameters('Save_into_SQL'),'Yes')]",
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2020-02-02-preview",
+            "name": "[parameters('yourserver')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                            "administratorLogin": "[parameters('serverlogin')]",
+                            "administratorLoginPassword": "[parameters('serverpassword')]",
+                            "version": "12.0"
+            },
+            "resources": [
+            {
+                "condition":"[equals(parameters('Save_into_SQL'),'Yes')]",
+                "type": "databases",
+                "apiVersion": "2020-08-01-preview",
+                "name": "[parameters('yourdb')]",
+                "location": "[parameters('location')]",
+                "sku": {
+                            "name": "Basic",
+                            "tier": "Basic",
+                            "capacity": 5
+                },
+                "properties": {
+                    "collation": "[variables('databaseCollation')]"
+                },
+                "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', concat(parameters('yourserver')))]"
+                ]
+            }
+          ]
+        },
+        {
+            "condition":"[equals(parameters('Save_into_SQL'),'Yes')]",
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "apiVersion": "2015-05-01-preview",
+            "name": "[concat(parameters('yourserver'), '/AllowAllWindowsAzureIps')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', concat(parameters('yourserver')))]"
+            ],
+            "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "0.0.0.0"
+            }
+        }
+    ]
+}

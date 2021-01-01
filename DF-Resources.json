@@ -2854,8 +2854,6 @@
             },
             "dependsOn": [
                 "[parameters('factoryName')]",
-                "[parameters('yourserver')]",
-                "[parameters('yourdb')]"
             ]
         },
         {

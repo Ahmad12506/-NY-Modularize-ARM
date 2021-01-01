@@ -84,10 +84,7 @@
             },
             "identity": {
                 "type": "SystemAssigned"
-                },
-            "dependsOn": [
-                "[parameters('storageAccountName')]"
-            ]
+            }
         },
         {
             "type": "Microsoft.AlertsManagement/actionRules",

@@ -216,7 +216,7 @@
                         "value": "[variables('factoryName')]"
                     },
                     "currentTime": {
-                        "value": "[variables('currentTime')]"
+                        "value": "[parameters('currentTime')]"
                     },
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"

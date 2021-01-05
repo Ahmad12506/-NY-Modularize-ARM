@@ -3,7 +3,6 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "Save_into_SQL":{
-            "defaultValue": "No",
             "type": "string",
             "metadata": {
                 "description": "Select 'Yes' to save output data into SQL. Otherwise 'No'."

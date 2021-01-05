@@ -154,7 +154,7 @@
         },
         {
             "condition":"[equals(parameters('Save_into_SQL'),'Yes')]",
-            "name": "[concat(parameters('factoryName'), '/DailyTrigger')]",
+            "name": "[concat(parameters('factoryName'), '/DailyTriggerSQL')]",
             "type": "Microsoft.DataFactory/factories/triggers",
             "apiVersion": "2018-06-01",
             "properties": {
@@ -192,7 +192,7 @@
         },
         {
             "condition":"[equals(parameters('Save_into_SQL'),'No')]",
-            "name": "[concat(parameters('factoryName'), '/DailyTrigger')]",
+            "name": "[concat(parameters('factoryName'), '/DailyTriggerNoSQL')]",
             "type": "Microsoft.DataFactory/factories/triggers",
             "apiVersion": "2018-06-01",
             "properties": {

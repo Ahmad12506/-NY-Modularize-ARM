@@ -8,6 +8,9 @@
                 "description": "The name can contain only letters, numbers and hyphens. The first and last characters must be a letter or number. Spaces are not allowed."
                 }
         },
+        "currentTime": {
+            "type": "string",
+        },
         "storageAccountName": {
             "type": "string",
             "metadata": {
@@ -148,6 +151,82 @@
                 },
                 "description": "This is an suppressed rule to deactivate the email."
             }
+        },
+        {
+            "condition":"[equals(parameters('Save_into_SQL'),'Yes')]",
+            "name": "[concat(parameters('factoryName'), '/DailyTrigger')]",
+            "type": "Microsoft.DataFactory/factories/triggers",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "This trigger will automatically runs on every day.",
+                "annotations": [],
+                "runtimeState": "Started",
+                "pipelines": [
+                    {
+                        "pipelineReference": {
+                            "referenceName": "Covid_Tracking_NewYorkTimes_With_Sql_Sink",
+                            "type": "PipelineReference"
+                        },
+                        "parameters": {
+                            "sourceFilename": "states_daily_4pm_et.csv",
+                            "blobContainer": "public",
+                            "rawBlobDirectory": "raw/covid-19/covid_tracking",
+                            "curatedBlobDirectory": "curated/covid-19/covid_tracking",
+                            "filename": "covid_tracking"
+                        }
+                    }
+                ],
+                "type": "ScheduleTrigger",
+                "typeProperties": {
+                    "recurrence": {
+                        "frequency": "Hour",
+                        "interval": 24,
+                        "startTime": "[parameters('currentTime')]",
+                        "timeZone": "UTC"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/pipelines/Covid_Tracking_NewYorkTimes_With_Sql_Sink')]"
+            ]
+        },
+        {
+            "condition":"[equals(parameters('Save_into_SQL'),'No')]",
+            "name": "[concat(parameters('factoryName'), '/DailyTrigger')]",
+            "type": "Microsoft.DataFactory/factories/triggers",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "description": "This trigger will automatically runs on every day.",
+                "annotations": [],
+                "runtimeState": "Started",
+                "pipelines": [
+                    {
+                        "pipelineReference": {
+                            "referenceName": "Covid_Tracking_NewYorkTimes_Without_Sql_Sink",
+                            "type": "PipelineReference"
+                        },
+                        "parameters": {
+                            "sourceFilename": "states_daily_4pm_et.csv",
+                            "blobContainer": "public",
+                            "rawBlobDirectory": "raw/covid-19/covid_tracking",
+                            "curatedBlobDirectory": "curated/covid-19/covid_tracking",
+                            "filename": "covid_tracking"
+                        }
+                    }
+                ],
+                "type": "ScheduleTrigger",
+                "typeProperties": {
+                    "recurrence": {
+                        "frequency": "Hour",
+                        "interval": 24,
+                        "startTime": "[parameters('currentTime')]",
+                        "timeZone": "UTC"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('factoryId'), '/pipelines/Covid_Tracking_NewYorkTimes_Without_Sql_Sink')]"
+            ]
         },
         {
             "condition":"[equals(parameters('Save_into_SQL'),'No')]",

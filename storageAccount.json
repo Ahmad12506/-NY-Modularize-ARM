@@ -4,16 +4,14 @@
     "parameters": {
         "storageAccountName": {
               "type": "string",
-              "defaultValue": "storageacc",
               "metadata": {
-              "description": "The field can contain only lowercase letters and numbers. Name must be between 3 and 24 characters."
+              "description": "The field can contain only lowercase letters and numbers. Name must be between 1 and 11 characters."
             }
         },
         "location": {
               "type": "string",
-              "defaultValue": "eastus",
               "metadata": {
-              "description": "By Default eastus location is allowed."
+              "description": "By default EastUs is only allowed location for all resources."
               }
         }
     },

@@ -9,6 +9,10 @@
                 "description": "The name can contain only letters, numbers and hyphens. The first and last characters must be a letter or number. Spaces are not allowed."
                 }
         },
+        "currentTime": {
+            "type": "string",
+            "defaultValue": "[utcNow('u')]"
+        },
         "storageAccountName": {
             "type": "string",
             "defaultValue": "storageacc",
@@ -210,6 +214,9 @@
               "parameters": {
                     "factoryName": {
                         "value": "[variables('factoryName')]"
+                    },
+                    "currentTime": {
+                        "value": "[variables('currentTime')]"
                     },
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"

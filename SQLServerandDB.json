@@ -15,7 +15,7 @@
         "yourserver": {
             "type": "String",
             "metadata": {
-                "description": "Your server name can contain only lowercase letters, numbers, and '-', but can't start or end with '-' or have more than 63 characters."
+                "description": "Your server name can contain only lowercase letters, numbers, and '-', but can't start or end with '-' or have more than 50 characters."
                 }
         },
         "yourdb": {

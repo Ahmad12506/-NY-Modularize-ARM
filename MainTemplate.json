@@ -41,7 +41,7 @@
             "defaultValue": "teams-1",
             "type": "String",
             "metadata": {
-                "description": "Enter Teams Connection Name e.g teams-1"
+                "description": "The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens."
                 }
         },
         "Logic_App_Name": {

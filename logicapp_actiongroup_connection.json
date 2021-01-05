@@ -4,48 +4,41 @@
     "parameters": {
         "factoryName": {
             "type": "string",
-            "defaultValue": "nydatafactory",
             "metadata": {
                 "description": "The name can contain only letters, numbers and hyphens. The first and last characters must be a letter or number. Spaces are not allowed."
                 }
         },
         "storageAccountName": {
             "type": "string",
-            "defaultValue": "storageacc",
             "metadata": {
-            "description": "The field can contain only lowercase letters and numbers. Name must be between 3 and 24 characters."
+            "description": "The field can contain only lowercase letters and numbers. Name must be between 1 and 11 characters."
             }
        },
        "location": {
             "type": "string",
-            "defaultValue": "eastus",
             "metadata": {
             "description": "By Default eastus location is allowed."
             }
         },
         "Action_Group_Name": {
-            "defaultValue": "actiongroup",
             "type": "String",
             "metadata": {
-                "description": "Enter Action group name."
+                "description": "Provide an action group name that is unique with in the resource group."
                 }
         },
         "Teams_connections_name": {
-            "defaultValue": "teams-1",
             "type": "String",
             "metadata": {
                 "description": "Enter Teams Connection Name e.g teams-1"
                 }
         },
         "Action_Email": {
-            "defaultValue": "Ahmad.asad@emumba.com",
             "type": "String",
             "metadata": {
                 "description": "Enter Email to send the notification."
                 }
         },
         "Logic_App_Name": {
-            "defaultValue": "newlogicapp",
             "type": "String",
             "metadata": {
                 "description": "The name can only contain letters, numbers, and '-', '(', ')', '_' or '.'."

@@ -2,21 +2,32 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "Data Share Name": {
+        "Data_Share_Name": {
             "defaultValue": "testdatashar",
             "type": "String"
         },
         "location": {
           "type": "String",
           "defaultValue": "eastus"
-        }
+        },
+        "Create_DataShare":{
+            "type": "string",
+            "metadata": {
+                "description": "Select 'Yes' to Create DataShare. Otherwise 'No'."
+            },
+            "allowedValues":[
+                "Yes",
+                "No"
+            ]
+        },
     },
     "variables": {},
     "resources": [
         {
+            "condition":"[equals(parameters('Create_DataShare'),'Yes')]",
             "type": "Microsoft.DataShare/accounts",
             "apiVersion": "2019-11-01",
-            "name": "[parameters('Data Share Name')]",
+            "name": "[parameters('Data_Share_Name')]",
             "location": "[parameters('location')]",
             "tags": {
                 "createdBy": "Ahmad",
@@ -29,11 +40,12 @@
             "properties": {}
         },
         {
+            "condition":"[equals(parameters('Create_DataShare'),'Yes')]",
             "type": "Microsoft.DataShare/accounts/shares",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('Data Share Name'), '/publicdatashare')]",
+            "name": "[concat(parameters('Data_Share_Name'), '/publicdatashare')]",
             "dependsOn": [
-                "[resourceId('Microsoft.DataShare/accounts', parameters('Data Share Name'))]"
+                "[resourceId('Microsoft.DataShare/accounts', parameters('Data_Share_Name'))]"
             ],
             "properties": {
                 "shareKind": "CopyBased"

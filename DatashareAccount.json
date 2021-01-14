@@ -20,14 +20,28 @@
                 "No"
             ]
         },
+        "storageAccountName": {
+			"type": "string",
+			"defaultValue": "storageacc",
+			"metadata": {
+				"description": "The field can contain only lowercase letters and numbers. Name must be between 1 and 11 characters."
+			}
+		}
     },
-    "variables": {},
+    "variables": {
+        "storageAccountName": "[parameters('storageAccountName')]",
+        "dataShareAccountName": "[concat(parameters('Data_Share_Name'), 'shareaccount')]",
+        "dataShareName": "[concat(parameters('Data_Share_Name'),'share')]",
+        "roleAssignmentName": "[guid(uniqueString(variables('storageAccountName'), variables('storageBlobDataReaderRoleDefinitionId'), variables('dataShareAccountName')))]",
+        "inviteName": "[concat(variables('dataShareName'), 'invite')]",
+        "storageBlobDataReaderRoleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]"
+    },
     "resources": [
         {
             "condition":"[equals(parameters('Create_DataShare'),'Yes')]",
             "type": "Microsoft.DataShare/accounts",
             "apiVersion": "2019-11-01",
-            "name": "[parameters('Data_Share_Name')]",
+            "name": "[variables('dataShareAccountName')]",
             "location": "[parameters('location')]",
             "tags": {
                 "createdBy": "Ahmad",
@@ -43,12 +57,22 @@
             "condition":"[equals(parameters('Create_DataShare'),'Yes')]",
             "type": "Microsoft.DataShare/accounts/shares",
             "apiVersion": "2019-11-01",
-            "name": "[concat(parameters('Data_Share_Name'), '/publicdatashare')]",
+            "name": "[concat(variables('dataShareAccountName'), '/', variables('dataShareName'))]",
             "dependsOn": [
-                "[resourceId('Microsoft.DataShare/accounts', parameters('Data_Share_Name'))]"
+                "[resourceId('Microsoft.DataShare/accounts', variables('dataShareAccountName'))]"
             ],
             "properties": {
                 "shareKind": "CopyBased"
+            }
+        },
+        {
+            "scope": "[format('Microsoft.Storage/storageAccounts/{0}', variables('storageAccountName'))]",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2020-04-01-preview",
+            "name": "[variables('roleAssignmentName')]",
+            "properties": {
+                "roleDefinitionId": "[variables('storageBlobDataReaderRoleDefinitionId')]",
+                "principalId": "[reference(resourceId('Microsoft.DataShare/accounts', variables('dataShareAccountName')), '2019-11-01', 'Full').identity.principalId]"
             }
         }
     ]

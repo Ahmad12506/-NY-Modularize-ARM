@@ -295,7 +295,7 @@
 					},
 					"storageAccountName": {
 						"value": "[variables('storageAccountName')]"
-					},
+                    }
 				}
 			}
 		}

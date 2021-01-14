@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Data Share Name": {
+            "defaultValue": "testdatashar",
+            "type": "String"
+        },
+        "location": {
+          "type": "String",
+          "defaultValue": "eastus"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.DataShare/accounts",
+            "apiVersion": "2019-11-01",
+            "name": "[parameters('Data Share Name')]",
+            "location": "[parameters('location')]",
+            "tags": {
+                "createdBy": "Ahmad",
+                "purpose": "Testing",
+                "duration": "Untill Testing"
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.DataShare/accounts/shares",
+            "apiVersion": "2019-11-01",
+            "name": "[concat(parameters('Data Share Name'), '/publicdatashare')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.DataShare/accounts', parameters('Data Share Name'))]"
+            ],
+            "properties": {
+                "shareKind": "CopyBased"
+            }
+        }
+    ]
+}
